@@ -30,3 +30,33 @@ If you want to upload a new firmware file (a ".uf2" file, like "madromys_awesome
 # Customizing your Ploopy Madromys
 
 You can find customziation options [here](../readme.md).
+
+# 自分用のメモ
+
+https://ploopyco.github.io/adept-trackball/appendices/programming/
+
+qmk使用にあたり、qmkをインストールせねばならない。
+python3 -m pip install --user qmk
+インストール後、qmkの位置を確認する。
+find ~/Library/Python -type f -name qmk
+find ~/.local/bin -type f -name qmk
+コマンド使用できるよう環境変数に登録する。Pythonのバージョンなどを環境にあわせ適宜変更。
+echo 'export PATH="$HOME/Library/Python/3.9/bin:$PATH"' >> ~/.zshrc
+記載完了を確認する。
+cat ~/.zshrc
+現在のシェルに適用する。
+source ~/.zshrc
+QMKの稼働を確認する。
+qmk --version
+
+qmk configし、現在の設定を確認でき qmk doctorし、診断できる。
+稼働時のホームディレクトリを設定する。
+qmk setup -H ~/projects/adept-trackball
+ホームディレクトリを基準に、-kb -kmのパスパラメータを入れる。
+qmk compile -kb ploopy/adept -km mykeymap
+
+keymapはCで書かれるが、なぜqmkはpython基盤でkeymapはCなのか？
+マイコン（MCU）上で動くC基盤のTMKから、QMKが分岐。
+QMK Firmware > C：MCU上で動く, USB HID処理・キー入力処理
+QMK CLI > Python：ビルド・書き込みツール
+
