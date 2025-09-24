@@ -1,2 +1,10 @@
+SPLIT_KEYBOARD = yes
+BOOTLOADER = caterina
 # Disable unsupported hardware
 BACKLIGHT_SUPPORTED = no
+EXTRAFLAGS += -flto
+# LED (RGB) OFF
+RGBLIGHT_ENABLE = no
+RGB_MATRIX_ENABLE = no
+# OLED OFF
+OLED_DRIVER_ENABLE = no
