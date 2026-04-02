@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "rdmctmzt_common.h"
+// turn off via
+extern const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS];
 
 void es_mcu_reset(void) {
     uint16_t Time_Delay = 0;
@@ -440,10 +442,18 @@ void es_chibios_user_idle_loop_hook(void) {
             }
         }
 
-        register_code(dynamic_keymap_get_keycode(0, Rol_Count, Col_Count));
-        wait_ms(2);
-        unregister_code(dynamic_keymap_get_keycode(0, Rol_Count, Col_Count));
-        wait_ms(2);
+        // turn off via
+        // register_code(dynamic_keymap_get_keycode(0, Rol_Count, Col_Count));
+        // wait_ms(2);
+        // unregister_code(dynamic_keymap_get_keycode(0, Rol_Count, Col_Count));
+        // wait_ms(2);
+        uint16_t wake_keycode = pgm_read_word(&keymaps[0][Rol_Count][Col_Count]);
+        if (wake_keycode != KC_NO && wake_keycode != KC_TRNS) {
+            register_code(wake_keycode);
+            wait_ms(2);
+            unregister_code(wake_keycode);
+            wait_ms(2);
+        }
     }
 
     Board_Wakeup_Init();
