@@ -18,6 +18,7 @@
  */
 // Custom configuration
 #define TAPPING_TERM 170
+#define PERMISSIVE_HOLD
 
 // turn off via
 // #define DYNAMIC_KEYMAP_LAYER_COUNT 3
