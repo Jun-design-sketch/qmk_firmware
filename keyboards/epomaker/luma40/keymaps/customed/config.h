@@ -18,4 +18,14 @@
  */
 // Custom configuration
 #define TAPPING_TERM 200
+
+// turn off via
 // #define DYNAMIC_KEYMAP_LAYER_COUNT 3
+
+// use combined mouse mode
+#define MK_COMBINED
+
+// Combo settings
+#define COMBO_TERM 200
+#define COMBO_MUST_HOLD_PER_COMBO
+#define COMBO_TERM_PER_COMBO
