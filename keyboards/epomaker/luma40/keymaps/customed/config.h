@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 // Custom configuration
-#define TAPPING_TERM 200
+#define TAPPING_TERM 170
 
 // turn off via
 // #define DYNAMIC_KEYMAP_LAYER_COUNT 3

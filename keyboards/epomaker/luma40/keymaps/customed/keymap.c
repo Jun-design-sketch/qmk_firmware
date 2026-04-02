@@ -28,7 +28,8 @@ enum layers {
     MOUSE,
     SYM,
     NUM,
-    FUN
+    FUN,
+    MOUSE_SYM
 };
 
 enum custom_keycodes {
@@ -42,10 +43,10 @@ enum custom_keycodes {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_tkl_ansi(
-        KC_Q,    KC_W,    KC_E,      KC_R,    KC_T,    BOOTKEY1, BOOTKEY2, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,      KC_F,    KC_G,    XXXXXXX, XXXXXXX, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
-        KC_Z,    KC_X,    KC_C,      KC_V,    KC_B,    XXXXXXX, XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-        XXXXXXX, XXXXXXX, LT(MEDIA,  KC_ESC), LT(NAV, KC_SPC), LT(MOUSE, KC_TAB), XXXXXXX, LT(SYM, KC_ENT), LT(NUM, KC_BSPC), LT(FUN, KC_DEL), XXXXXXX, XXXXXXX
+        KC_Q,          KC_W,          KC_E,          KC_R,               KC_T,                   BOOTKEY1,              BOOTKEY2,         KC_Y,             KC_U,              KC_I,          KC_O,          KC_P,
+        LGUI_T(KC_A),  LALT_T(KC_S),  LCTL_T(KC_D),  LSFT_T(KC_F),       KC_G,                   XXXXXXX,               XXXXXXX,          KC_H,             RSFT_T(KC_J),      RCTL_T(KC_K),  RALT_T(KC_L),  RGUI_T(KC_QUOT),
+        KC_Z,          KC_X,          KC_C,          KC_V,               KC_B,                   XXXXXXX,               XXXXXXX,          KC_N,             KC_M,              KC_COMM,       KC_DOT,        KC_SLSH,
+        XXXXXXX,       XXXXXXX,       XXXXXXX,       LT(NAV, KC_SPC),    LT(MOUSE, KC_TAB),      XXXXXXX,                                 LT(SYM, KC_ENT),  LT(NUM, KC_BSPC),  XXXXXXX,       XXXXXXX,       XXXXXXX
     ),
 
     [NAV] = LAYOUT_tkl_ansi(
@@ -88,22 +89,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         RM_TOGG, RM_HUED, RM_HUEU, RM_NEXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
         RM_SATD, RM_SATU, RM_VALD, RM_VALU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MD_BLE1, MD_BLE2, MD_BLE3, MD_24G,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          KC_MUTE, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX
-    )
+    ),
+
+    [MOUSE_SYM] = LAYOUT_tkl_ansi(
+        XXXXXXX, KC_AMPR, KC_ASTR, KC_LPRN, MS_ACL2, XXXXXXX, XXXXXXX, G(S(KC_Z)), G(KC_V), G(KC_C), G(KC_X), G(KC_Z),
+        XXXXXXX, KC_DLR,  KC_PERC, KC_CIRC, MS_BTN1, XXXXXXX, XXXXXXX, XXXXXXX, MS_LEFT, MS_DOWN, MS_UP,   MS_RGHT,
+        XXXXXXX, KC_EXLM, KC_AT,   KC_HASH, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR,
+        XXXXXXX, XXXXXXX, XXXXXXX, KC_RPRN, XXXXXXX, XXXXXXX,          MS_BTN2, MS_BTN1, XXXXXXX, XXXXXXX, XXXXXXX
+    ),
 };
 // clang-format on
 const uint16_t PROGMEM dfu_combo[] = {BOOTKEY1, BOOTKEY2, COMBO_END};
+const uint16_t PROGMEM left_thumb_combo[] = {LT(NAV, KC_SPC), LT(MOUSE, KC_TAB), COMBO_END};
+const uint16_t PROGMEM right_thumb_combo[] = {LT(SYM, KC_ENT), LT(NUM, KC_BSPC), COMBO_END};
 
 enum combo_events {
     DFU_COMBO,
+    LEFT_THUMB_COMBO,
+    RIGHT_THUMB_COMBO,
 };
 
 combo_t key_combos[] = {
     [DFU_COMBO] = COMBO(dfu_combo, QK_BOOT),
+    [LEFT_THUMB_COMBO] = COMBO(left_thumb_combo, LT(MEDIA, KC_ESC)),
+    [RIGHT_THUMB_COMBO] = COMBO(right_thumb_combo, LT(FUN, KC_DEL)),
 };
 
 bool get_combo_must_hold(uint16_t combo_index, combo_t *combo) {
     switch (combo_index) {
         case DFU_COMBO:
+        case LEFT_THUMB_COMBO:
+        case RIGHT_THUMB_COMBO:
             return true;
         default:
             return false;
@@ -114,6 +130,9 @@ uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     switch (combo_index) {
         case DFU_COMBO:
             return 2000;
+        case LEFT_THUMB_COMBO:
+        case RIGHT_THUMB_COMBO:
+            return 150;
         default:
             return COMBO_TERM;
     }
