@@ -26,6 +26,20 @@
 // use combined mouse mode
 #define MK_COMBINED
 
+// mouse movement speed
+#define MOUSEKEY_DELAY 10
+#define MOUSEKEY_INTERVAL 20
+#define MOUSEKEY_MOVE_DELTA 4
+#define MOUSEKEY_MAX_SPEED 6
+#define MOUSEKEY_TIME_TO_MAX 30
+
+// mouse wheel speed
+#define MOUSEKEY_WHEEL_DELAY 10
+#define MOUSEKEY_WHEEL_INTERVAL 80
+#define MOUSEKEY_WHEEL_DELTA 1
+#define MOUSEKEY_WHEEL_MAX_SPEED 3
+#define MOUSEKEY_WHEEL_TIME_TO_MAX 30
+
 // Combo settings
 #define COMBO_TERM 200
 #define COMBO_MUST_HOLD_PER_COMBO
